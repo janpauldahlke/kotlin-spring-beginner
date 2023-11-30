@@ -26,3 +26,8 @@
             }
           }
       ```
+      
+### profiles
+* in the `application.yaml` in `resources` on can set profiles,
+  * the cli way is to provide this flag `-DSpring.profiles.active=prod`
+  * there is an intelliJ way in run settings active profile
