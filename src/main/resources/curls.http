@@ -1,0 +1,6 @@
+
+###
+GET http://localhost:8080/v1/greet/randomName
+
+###
+GET {{baseURL}}/greet/Jan
