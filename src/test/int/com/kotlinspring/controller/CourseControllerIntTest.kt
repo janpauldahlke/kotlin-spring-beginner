@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.reactive.server.expectBodyList
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -62,8 +63,8 @@ class CourseControllerIntTest {
 
     }
 
-    @Test
-    fun getAllCourse() {
+    //@Test
+    /*fun getAllCourse() {
 
         //we need to post some, before we can get them with h2 in mem db, so here we go
         // one should not mix the db with test data and allow tests to write to it so this is my bad practice, i guess
@@ -99,7 +100,7 @@ class CourseControllerIntTest {
         }
 
 
-    }
+    }*/
 
     @Test
     fun refactorGetAllCourse() {
@@ -108,7 +109,8 @@ class CourseControllerIntTest {
             .uri("/v1/courses")
             .exchange()
             .expectStatus().is2xxSuccessful
-            .expectBody(object : ParameterizedTypeReference<List<CourseDTO>>() {}) //interesting hack when java does not suppert List
+            .expectBodyList(CourseDTO::class.java) // much better
+            //.expectBody(object : ParameterizedTypeReference<List<CourseDTO>>() {}) //interesting hack when java does not suppert List
             .returnResult()
             .responseBody
 

@@ -5,6 +5,7 @@ import com.kotlinspring.entitiy.Course
 import com.kotlinspring.repository.CourseRepository
 import mu.KLogging
 import org.springframework.stereotype.Service
+import java.util.NoSuchElementException
 
 //provide this annotation
 @Service
@@ -37,5 +38,29 @@ class CourseService(val courseRepository: CourseRepository) {
             .map{ // map into dto like this
                 CourseDTO(it.id, it.name, it.category)
             }
+    }
+
+    fun updateCourse(courseDTO: CourseDTO): CourseDTO {
+
+        //ensuring not null
+        val courseId = courseDTO.id
+            ?: throw IllegalArgumentException("Course ID must not be null for update operation")
+
+        //ensure a course is returned
+        val course = courseRepository
+            .findById(courseId)
+            .orElseThrow {NoSuchElementException("course with ${courseDTO.id} not found")}
+
+        val updatedCourse = course.copy(
+            name = courseDTO.name,
+            category =  courseDTO.category
+        )
+        courseRepository.save(updatedCourse)
+
+        return updatedCourse.let {
+            CourseDTO(
+                it.id, it.name, it.category
+            )
+        }
     }
 }

@@ -23,4 +23,11 @@ class CourseController(val courseService: CourseService) {
         return courseService.getAllCourses()
     }
 
+    //update
+    //update will use courseId and look here
+    @PutMapping("/{course_id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    fun updateCourse(@RequestBody courseDTO: CourseDTO): CourseDTO {
+        return courseService.updateCourse(courseDTO)
+    }
 }
