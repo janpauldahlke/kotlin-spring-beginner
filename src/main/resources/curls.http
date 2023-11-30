@@ -4,3 +4,12 @@ GET http://localhost:8080/v1/greet/randomName
 GET {{baseURL}}/greet/Jan
 ###
 POST {{baseURL}}/greet/Jan
+
+### post course
+POST {{baseURL}}/courses
+Content-Type: application/json
+
+{
+  "name": "My Nice Tantra Couse",
+  "category" : "EDUCATIONAL"
+}
