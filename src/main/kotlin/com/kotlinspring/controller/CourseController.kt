@@ -17,4 +17,10 @@ class CourseController(val courseService: CourseService) {
         return courseService.addCourse(courseDTO)
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    fun getAllCourses() : List<CourseDTO>{
+        return courseService.getAllCourses()
+    }
+
 }

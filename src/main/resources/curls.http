@@ -10,6 +10,12 @@ POST {{baseURL}}/courses
 Content-Type: application/json
 
 {
-  "name": "My Nice Tantra Couse",
-  "category" : "EDUCATIONAL"
+  "id": null,
+  "name": "BECOME A FROG IN DAYS",
+  "category" : "METAMORPHISM"
 }
+
+
+#### get all
+GET {{baseURL}}/courses
+Content-Type: application/json
