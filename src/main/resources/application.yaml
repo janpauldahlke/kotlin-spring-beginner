@@ -1,6 +1,18 @@
 spring:
   application:
     name: course-catalog-service
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database: h2
+    generate-ddl: true
+    show-sql: true #do not use this flag in prod for spam reasons
+  h2:
+    console:
+      enabled: true
 message: Hello From Default pro
 
 ---

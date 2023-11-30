@@ -37,3 +37,9 @@
 1. controller
 2. service
 3. repository
+
+### in mem db - h2
+* one can access the console for the when the server is running here `http://localhost:8080/h2-console``
+* as seen in the applications.yaml the db s url is `jdbc:h2:mem:testdb`
+* user: sa
+* password: password (save right?)

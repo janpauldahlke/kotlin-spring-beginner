@@ -1,4 +1,10 @@
 package com.kotlinspring.repository
 
-interface CrudRepository {
+import com.kotlinspring.entitiy.Course
+import org.springframework.data.repository.CrudRepository
+
+interface CrudRepository: CrudRepository<Course, Int> {
+
+    //in mem database h2
+
 }
