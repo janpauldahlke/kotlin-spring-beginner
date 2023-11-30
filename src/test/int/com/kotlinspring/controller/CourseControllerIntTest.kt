@@ -1,8 +1,11 @@
 package com.kotlinspring.controller
 
 import com.kotlinspring.dto.CourseDTO
+import com.kotlinspring.entitiy.Course
+import com.kotlinspring.repository.CourseRepository
 import mu.KLogging
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
@@ -15,10 +18,30 @@ import org.springframework.test.web.reactive.server.WebTestClient
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
 class CourseControllerIntTest {
-
     companion object: KLogging()
     @Autowired
     lateinit var webTestClient: WebTestClient
+    @Autowired
+    lateinit var courseRepository: CourseRepository
+
+    //prep exampe dat
+    val listOfCouses = listOf(
+        CourseDTO(null, "My Yoga Course", "WELLNESS"),
+        CourseDTO(null, "The Big JUNIT5 Course", "TESTING"),
+        CourseDTO(null, "Another FOO Course Name", "ANOTHER"),
+    ).let {
+         it.map {
+            Course(it.id, it.name, it.category)
+        }
+    }
+    //use before Each
+    @BeforeEach
+    fun setUp() {
+        courseRepository.deleteAll()
+        val courses = listOfCouses
+        courseRepository.saveAll(courses)
+    }
+
     @Test
     fun addCourse() {
 
@@ -44,13 +67,6 @@ class CourseControllerIntTest {
 
         //we need to post some, before we can get them with h2 in mem db, so here we go
         // one should not mix the db with test data and allow tests to write to it so this is my bad practice, i guess
-
-        //exampe dat
-        val listOfCouses : List<CourseDTO> = listOf(
-            CourseDTO(null, "My Yoga Course", "WELLNESS"),
-            CourseDTO(null, "The Big JUNIT5 Course", "TESTING"),
-            CourseDTO(null, "Another FOO Course Name", "ANOTHER"),
-        )
 
         //basically copy paste top test
         webTestClient.post()
@@ -83,5 +99,26 @@ class CourseControllerIntTest {
         }
 
 
+    }
+
+    @Test
+    fun refactorGetAllCourse() {
+
+        val result = webTestClient.get()
+            .uri("/v1/courses")
+            .exchange()
+            .expectStatus().is2xxSuccessful
+            .expectBody(object : ParameterizedTypeReference<List<CourseDTO>>() {}) //interesting hack when java does not suppert List
+            .returnResult()
+            .responseBody
+
+        Assertions.assertTrue{
+            result is List<CourseDTO>
+        }
+
+        Assertions.assertTrue {
+            result!!.size >= 3
+            result!![0].id == 1
+        }
     }
 }
