@@ -1,4 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+//we need this to configure test the old way
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 
 plugins {
 	id("org.springframework.boot") version "3.2.0"
@@ -25,9 +27,15 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+	//logging
+	implementation("io.github.microutils:kotlin-logging-jvm:2.0.11")
+
 	runtimeOnly("com.h2database:h2")
 	//runtimeOnly("org.postgresql:postgresql")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-webflux")
+
 }
 
 tasks.withType<KotlinCompile> {
@@ -39,4 +47,27 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+//confiuring tests
+sourceSets {
+	test {
+		//deprecated
+		//before 7.1 // also make sure to have the import from above
+		//import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+		withConvention(KotlinSourceSet::class) {
+			kotlin.setSrcDirs(listOf("src/test/int", "src/test/unit"))
+		}
+
+		//java {
+		//	setSrcDirs(listOf("src/test/int", "src/test/unit"))
+		//}
+
+		/*sourceSets {
+			val test by getting {
+				java.srcDir("src/test/int")
+				java.srcDir("src/test/unit")
+			}
+		}*/
+
+	}
 }
