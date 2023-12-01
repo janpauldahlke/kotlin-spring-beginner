@@ -41,7 +41,16 @@ class CourseRepositoryIntTest {
         assertEquals(1, course.size)
 
         val courses = repository.findByNameContaining("Course")
-        assertEquals(2, courses.size)
+        assertEquals(3, courses.size)
+    }
+
+    @Test
+    fun findNameContainingNativeQuery() {
+        val course = repository.findCourseByNameAsNativeQuery("Yoga")
+        assertEquals(1, course.size)
+
+        val courses = repository.findCourseByNameAsNativeQuery("Course")
+        assertEquals(3, courses.size)
     }
 
 
