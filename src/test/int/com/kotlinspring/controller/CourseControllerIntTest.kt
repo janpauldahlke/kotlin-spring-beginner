@@ -63,6 +63,9 @@ class CourseControllerIntTest {
 
     }
 
+
+    // do not do it like this, since we are posting and populating our database,
+    // look the at the before each, how to add fake data to the repository itself not using the webinterface
     //@Test
     /*fun getAllCourse() {
 
@@ -122,5 +125,31 @@ class CourseControllerIntTest {
             result!!.size >= 3
             result!![0].id == 1
         }
+    }
+
+
+    @Test
+    fun updatedCourse() {
+        val updatedCourse = CourseDTO(
+            1,
+            "My power YOGA course",
+            "SPORT"
+        )
+
+        val result = webTestClient
+            .put()
+            .uri("/v1/courses/${updatedCourse.id}")
+            .bodyValue(updatedCourse)
+            .exchange()
+            .expectStatus().is2xxSuccessful
+            .expectStatus().isAccepted
+            .expectBody(CourseDTO::class.java)
+            .returnResult()
+            .responseBody
+
+        Assertions.assertTrue {
+            result!!.name.contains("power")
+        }
+
     }
 }

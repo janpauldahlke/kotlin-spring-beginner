@@ -47,6 +47,8 @@ class CourseService(val courseRepository: CourseRepository) {
             ?: throw IllegalArgumentException("Course ID must not be null for update operation")
 
         //ensure a course is returned
+        //since the courseRepository.findById(courseId) is mutable, one does not need a reassign here
+        //check on POST, how to to gain the id miraculously
         val course = courseRepository
             .findById(courseId)
             .orElseThrow {NoSuchElementException("course with ${courseDTO.id} not found")}
