@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*
 class CourseController(val courseService: CourseService) {
 
     @PostMapping  // the http verb
+    @Valid
     @ResponseStatus(HttpStatus.CREATED) // type of response status
     // @RequestBody annotation tells Spring to deserialize the JSON request body into a CourseDTO object.
     fun addCourse(@Valid @RequestBody courseDTO: CourseDTO) : CourseDTO{
@@ -27,12 +28,11 @@ class CourseController(val courseService: CourseService) {
     //update
     //update will use courseId and look here
     @PutMapping("/{course_id}")
+    @Valid
     @ResponseStatus(HttpStatus.OK)
-    fun updateCourse(@RequestBody courseDTO: CourseDTO): CourseDTO {
+    fun updateCourse(@RequestBody @Valid courseDTO: CourseDTO): CourseDTO {
         return courseService.updateCourse(courseDTO)
     }
-
-
 
     //better delete using @PathVariable
     @DeleteMapping("/{course_id}")
