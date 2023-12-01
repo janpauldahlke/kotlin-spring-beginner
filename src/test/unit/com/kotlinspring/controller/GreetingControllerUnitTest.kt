@@ -38,6 +38,6 @@ class GreetingControllerUnitTest {
             .expectBody(String::class.java)
             .returnResult()
 
-        Assertions.assertEquals("Hello $name, $defaultMessage", result.responseBody)
+           Assertions.assertEquals("Hello $name, $defaultMessage", result.responseBody)
     }
 }
