@@ -32,12 +32,19 @@ class CourseController(val courseService: CourseService) {
     }
 
 
+
+    //better delete using @PathVariable
+    @DeleteMapping("/{course_id}")
+    fun deleteCourse(@PathVariable("course_id") courseId: Int)  {
+        return courseService.deleteCourse(courseId)
+    }
+
     //delete by id
-    @DeleteMapping
+    /*@DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     //return Unit here?
     fun deleteCourse(@RequestBody courseDTO: CourseDTO) : Unit {
         //only pass id here already? does it matter in which layer we do it?
         return courseService.deleteCourse(courseDTO)
-    }
+    }*/
 }

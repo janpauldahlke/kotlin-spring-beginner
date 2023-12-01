@@ -66,12 +66,16 @@ class CourseService(val courseRepository: CourseRepository) {
         }
     }
 
-    fun deleteCourse(courseDTO: CourseDTO) {
+    fun deleteCourse(courseId: Int) {
+        return courseRepository.deleteById(courseId)
+    }
+
+    /*fun deleteCourse(courseDTO: CourseDTO) {
         val toBeDeleted = courseDTO.let {
             Course(
                 it.id, it.name, it.category
             )
         }
         courseRepository.delete(toBeDeleted)
-    }
+    }*/
 }
