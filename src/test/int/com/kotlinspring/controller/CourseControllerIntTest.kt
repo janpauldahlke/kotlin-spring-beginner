@@ -155,4 +155,19 @@ class CourseControllerIntTest {
         assertEquals("My power YOGA course", result!!.name)
 
     }
+
+
+    @Test
+    fun deleteCourse() {
+        val courseIdToDelete = 1
+
+        val result = webTestClient
+            .delete()
+            .uri("/v1/courses/{course_id}", courseIdToDelete)
+            .exchange()
+            .expectStatus().isNoContent
+
+
+        logger.info("<--OnDelete-->: $result")
+    }
 }
