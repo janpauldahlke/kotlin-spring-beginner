@@ -26,8 +26,18 @@ class CourseController(val courseService: CourseService) {
     //update
     //update will use courseId and look here
     @PutMapping("/{course_id}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.OK)
     fun updateCourse(@RequestBody courseDTO: CourseDTO): CourseDTO {
         return courseService.updateCourse(courseDTO)
+    }
+
+
+    //delete by id
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    //return Unit here?
+    fun deleteCourse(@RequestBody courseDTO: CourseDTO) : Unit {
+        //only pass id here already? does it matter in which layer we do it?
+        return courseService.deleteCourse(courseDTO)
     }
 }

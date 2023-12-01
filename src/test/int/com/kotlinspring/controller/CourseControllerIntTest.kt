@@ -5,6 +5,7 @@ import com.kotlinspring.entitiy.Course
 import com.kotlinspring.repository.CourseRepository
 import mu.KLogging
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -142,7 +143,7 @@ class CourseControllerIntTest {
             .bodyValue(updatedCourse)
             .exchange()
             .expectStatus().is2xxSuccessful
-            .expectStatus().isAccepted
+            .expectStatus().isOk
             .expectBody(CourseDTO::class.java)
             .returnResult()
             .responseBody
@@ -150,6 +151,8 @@ class CourseControllerIntTest {
         Assertions.assertTrue {
             result!!.name.contains("power")
         }
+
+        assertEquals("My power YOGA course", result!!.name)
 
     }
 }

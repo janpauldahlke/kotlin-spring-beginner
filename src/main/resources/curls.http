@@ -21,11 +21,21 @@ GET {{baseURL}}/courses
 Content-Type: application/json
 
 ### put, before you do it, just post line 9
-PUT {{baseURL}}/courses/1
+PUT  {{baseURL}}/courses/1
 Content-Type: application/json
 
 {
   "id": 1,
   "name": "BECOME A WIZARD IN DAYS",
   "category" : "METAMORPHISM"
+}
+
+### delete // this delete sucks, cuz @responseBody, we desire DELET baseUIR/id not to pass the complete obj here right?
+DELETE {{baseURL}}/courses
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "BECOME A FROG IN DAYS",
+  "category": "METAMORPHISM"
 }
