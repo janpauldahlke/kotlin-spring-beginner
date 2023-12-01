@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.reactive.server.expectBody
+import java.lang.RuntimeException
 
 @WebMvcTest(controllers = [CourseController::class])
 @AutoConfigureWebTestClient
@@ -47,7 +49,7 @@ class CourseControllerUnitTest {
         assertEquals(1, savedCourse?.id)
     }
 
-    @Test
+    @Test //relates to field validation
     fun addCourse_fieldValidation() {
         val courseDTO = CourseDTO(
             null,
@@ -60,13 +62,45 @@ class CourseControllerUnitTest {
         } returns courseDTO.copy(id=1)
 
 
-        val savedCourse = client.post()
+        val notSavedCourseWithErrors = client.post()
             .uri("/v1/courses")
             .bodyValue(courseDTO)
             .exchange()
-            .expectStatus().is4xxClientError
+            .expectStatus().isBadRequest
+            .expectBody(String::class.java)
+            .returnResult()
+            .responseBody
+
+        assertEquals("[\"CourseDTO.category must not be blank\",\"CourseDTO.name must not be blank\"]", notSavedCourseWithErrors)
     }
 
+    @Test // relates to global error handler
+    fun addCourse_runTimeException() {
+        val courseDTO = CourseDTO(
+            null,
+            "Test",
+            "TCATEROY"
+        )
+        val message = "Error is expected"
+
+        every {
+            courseServiceMock.addCourse(any())
+        } throws RuntimeException(message)
+
+
+        val notSavedCourseWithErrors = client.post()
+            .uri("/v1/courses")
+            .bodyValue(courseDTO)
+            .exchange()
+            .expectStatus().is5xxServerError
+            .expectBody(String::class.java)
+            .returnResult()
+            .responseBody
+
+        assertEquals(message, notSavedCourseWithErrors)
+
+
+    }
     @Test
     fun getAllCourse() {
 
