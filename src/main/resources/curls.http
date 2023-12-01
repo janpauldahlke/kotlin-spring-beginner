@@ -15,6 +15,16 @@ Content-Type: application/json
   "category" : "METAMORPHISM"
 }
 
+###validation POST Test
+POST {{baseURL}}/courses
+Content-Type: application/json
+
+{
+  "id": null,
+  "name" : "",
+  "category" : ""
+}
+
 
 #### get all
 GET {{baseURL}}/courses

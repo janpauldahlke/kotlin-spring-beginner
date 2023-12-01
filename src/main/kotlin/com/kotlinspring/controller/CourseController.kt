@@ -2,6 +2,7 @@ package com.kotlinspring.controller
 
 import com.kotlinspring.dto.CourseDTO
 import com.kotlinspring.service.CourseService
+import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
@@ -13,7 +14,7 @@ class CourseController(val courseService: CourseService) {
     @PostMapping  // the http verb
     @ResponseStatus(HttpStatus.CREATED) // type of response status
     // @RequestBody annotation tells Spring to deserialize the JSON request body into a CourseDTO object.
-    fun addCourse(@RequestBody courseDTO: CourseDTO) : CourseDTO{
+    fun addCourse(@Valid @RequestBody courseDTO: CourseDTO) : CourseDTO{
         return courseService.addCourse(courseDTO)
     }
 

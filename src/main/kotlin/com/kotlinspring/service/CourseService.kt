@@ -13,7 +13,7 @@ class CourseService(val courseRepository: CourseRepository) {
 
     companion object: KLogging()
     fun addCourse(courseDTO: CourseDTO) :CourseDTO {
-        //we need convert DTO into Entity
+        // we need convert DTO into Entity
         // for this we use scopedFunction let
         // it looks ez right? seems to be a pattern
         val courseEntity = courseDTO.let{

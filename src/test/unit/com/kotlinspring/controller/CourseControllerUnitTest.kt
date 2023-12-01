@@ -26,8 +26,7 @@ class CourseControllerUnitTest {
 
     @Test
     fun addCourse() {
-
-        val courseDTO = CourseDTO(
+       val courseDTO = CourseDTO(
             null,
             "Wake your inner child",
             "DEVELOPMENT"
@@ -45,9 +44,27 @@ class CourseControllerUnitTest {
             .expectBody(CourseDTO::class.java)
             .returnResult()
             .responseBody
-
         assertEquals(1, savedCourse?.id)
+    }
 
+    @Test
+    fun addCourse_fieldValidation() {
+        val courseDTO = CourseDTO(
+            null,
+            "",
+            ""
+        )
+
+        every {
+            courseServiceMock.addCourse(any())
+        } returns courseDTO.copy(id=1)
+
+
+        val savedCourse = client.post()
+            .uri("/v1/courses")
+            .bodyValue(courseDTO)
+            .exchange()
+            .expectStatus().is4xxClientError
     }
 
     @Test
