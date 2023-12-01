@@ -142,6 +142,8 @@ class CourseControllerIntTest {
             .uri("/v1/courses/${updatedCourse.id}")
             .bodyValue(updatedCourse)
             .exchange()
+            .expectStatus().is2xxSuccessful
+            .expectStatus().isOk
             .expectBody(CourseDTO::class.java)
             .returnResult()
             .responseBody
